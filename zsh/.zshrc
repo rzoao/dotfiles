@@ -1,8 +1,9 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+export NIX_LAB_IP=localhost
 
 # Path to your oh-my-zsh installation.
-  export ZSH="/home/joaocarvalho/.oh-my-zsh"
+  export ZSH="/home/joao.menezes/.oh-my-zsh"
 
 
 # Set name of the theme to load --- if set to "random", it will
@@ -10,7 +11,7 @@ export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 #ZSH_THEME="robbyrussell"
-
+#
 #ZSH_THEME="kolo"
 ZSH_THEME="spaceship"
 
@@ -71,9 +72,6 @@ compinit
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-aterminal
-celery
-django
 docker
 git
 last-working-dir
@@ -127,7 +125,9 @@ alias ohmyzsh="mate ~/.oh-my-zsh"
 # xclip alias for pbcopy and pbpaste in terminal
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
-
+alias vpnStatus='sudo systemctl status openvpn-client@swimlane | grep Active'
+alias vpnUp='sudo systemctl start openvpn-client@swimlane; vpnStatus'
+alias vpnDown='sudo systemctl stop openvpn-client@swimlane'
 
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
@@ -145,3 +145,19 @@ export USE_DOCKER_COMPOSE=True
 # lauches tmux on star
 if [ "$TMUX" = "" ]; then tmux; fi
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
+# asdf commands
+. $HOME/.asdf/asdf.sh
+
+# append completions to fpath
+fpath=(${ASDF_DIR}/completions $fpath)
+# initialise completions with ZSH's compinit
+autoload -Uz compinit
+compinit
+eval 
+SWSDK_AC_ZSH_SETUP_PATH=/home/joao.menezes/.cache/@swimlane/swimlane-sdk/autocomplete/zsh_setup && test -f $SWSDK_AC_ZSH_SETUP_PATH && source $SWSDK_AC_ZSH_SETUP_PATH; # swsdk autocomplete setup
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
